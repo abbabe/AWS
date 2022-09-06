@@ -10,37 +10,36 @@ Resources:
       KeyName: mykey
       Tags:
         - Key: Name
-          Value: Web Server of Kitten Carousel
-
+          Value: !Sub Web Server of ${AWS::StackName} Stack
+          # !Sub   we need to use this format . will get name after creation
      
       UserData:
         Fn::Base64:
           Fn::Join:
           - "\n"
           - - "#!/bin/bash "
-            - sudo yum update -y
-            - sudo yum install -y httpd.x86_64
-            - sudo yum install wget -y
+            - yum update -y
+            - yum install httpd -y
+            - FOLDER="https://raw.githubusercontent.com/abbabe/AWS-DevOps/main/Project-101-kittens-carousel-static-website-ec2/static-web"
+            - cd /var/www/html
+            - wget  $FOLDER/index.html
+            - wget  $FOLDER/cat0.jpg
+            - wget  $FOLDER/cat1.jpg
+            - wget  $FOLDER/cat2.jpg
+            - wget  $FOLDER/cat3.png
             - systemctl start httpd.service
             - systemctl enable httpd.service
-            - sudo chmod -R 777 /var/www/html
-            - cd /var/www/html
-            - wget https://raw.githubusercontent.com/abbabe/AWS/main/Project-101-kittens-carousel-static-website-ec2/static-web/cat0.jpg
-            - wget https://raw.githubusercontent.com/abbabe/AWS/main/Project-101-kittens-carousel-static-website-ec2/static-web/cat1.jpg
-            - wget https://raw.githubusercontent.com/abbabe/AWS/main/Project-101-kittens-carousel-static-website-ec2/static-web/cat2.jpg
-            - wget https://raw.githubusercontent.com/abbabe/AWS/main/Project-101-kittens-carousel-static-website-ec2/static-web/cat3.png
-            - wget https://raw.githubusercontent.com/abbabe/AWS/main/Project-101-kittens-carousel-static-website-ec2/static-web/index.html
             
             
       
       SecurityGroups:
-        - Ref: ApacheSecurityGroups
+        - !Ref ApacheSecurityGroups
 
   ApacheSecurityGroups:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: My Apache Security Group
-      GroupName: My Apache SG
+      GroupName: My Apache SG2
 
       SecurityGroupIngress:
         - IpProtocol: "tcp"
