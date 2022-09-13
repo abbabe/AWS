@@ -124,13 +124,9 @@ Resources:
               FOLDER="https://raw.githubusercontent.com/abbabe/AWS-DevOps/main/ALB-AutoScaling-CFN/"
               chmod -R 777 /var/www/html
               cd /var/www/html
-              wget  $FOLDER/templates/index.html
-              wget  $FOLDER/static/style/style.css
-              wget  $FOLDER/static/images/res.jpeg
-              mkdir -p static/style
-              mkdir -p static/images
-              mv res.jpeg /var/www/html/static/images
-              mv style.css /var/www/html/static/style
+              wget  $FOLDER/index.html
+              wget  $FOLDER/style.css
+              wget  $FOLDER/res.jpeg
               systemctl start httpd
               systemctl enable httpd
 
