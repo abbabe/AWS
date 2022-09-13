@@ -1,0 +1,182 @@
+#  cfn yazınca sablon geliyor
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  This template creates ASG behind an ALB.
+Parameters:
+#  These parameters will select via CFN Console manually
+  VPC: #optional name
+    Description: Select VPC
+    Type: AWS::EC2::VPC::Id
+ 
+
+  Subnet: #optional name
+    Description: Select at least 2 subnet
+    Type: List<AWS::EC2::Subnet::Id>   #  list type
+
+  KeyPair:
+    Description: Select your keypair.
+    Type: AWS::EC2::KeyPair::KeyName  # keypair parameter
+
+
+
+
+  InstanceType:  # optional name ParameterName
+    Description: Select your instance type.
+    Type: String
+    Default: t2.micro
+    AllowedValues: # User can select only allowed values
+      - t2.micro
+      - t3.micro
+      - t2.nano
+      - t3.nano
+
+
+
+Mappings:
+
+  RegionImageMap: 
+    us-east-1: 
+      AMI: "ami-05fa00d4c63e32376"
+    us-east-2:
+      AMI: ami-0233c2d874b811deb
+    us-west-1:
+      AMI: ami-0ed05376b59b90e46
+    us-west-2:
+      AMI: ami-0dc8f589abe99f538
+    eu-west-1:
+      AMI: ami-058b1b7fe545997ae
+
+Resources:
+#LoadBalancer
+  myALB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: MyApplicationLoadBalancer
+      SecurityGroups:
+        - !GetAtt mySG.GroupId
+      Subnets: !Ref Subnet
+      Type: application
+
+
+
+
+#Listener
+
+  myListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions: # Required
+        - Type: forward
+          TargetGroupArn: !Ref myTG
+      LoadBalancerArn: !Ref myALB  # Required
+      Port: 80
+      Protocol: HTTP
+   
+
+
+#Auto Scaling Group
+  myASG:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      DesiredCapacity: "2"
+      HealthCheckGracePeriod: 90
+      HealthCheckType: ELB
+      LaunchTemplate:
+        LaunchTemplateId: !Ref myLT
+        Version: "1"
+      MaxSize: "2" # Required
+      MinSize: "1" # Required
+      TargetGroupARNs:
+        - !Ref myTG
+      VPCZoneIdentifier: !Ref Subnet
+
+#Auto Scaling CPU Policy
+  myCPUPolicy:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AutoScalingGroupName: !Ref myASG  # Required
+      PolicyType: TargetTrackingScaling
+      TargetTrackingConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ASGAverageCPUUtilization
+        TargetValue: 60.0
+
+
+#launch Template
+  myLT:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        ImageId: !FindInMap # Select ımage ıd from parameters
+          - RegionImageMap  # Map Name
+          - !Ref 'AWS::Region'
+          - AMI
+
+        InstanceType: !Ref InstanceType
+        KeyName: !Ref KeyPair
+        SecurityGroupIds:
+          - !GetAtt mySG.GroupId #we will use nondefault VPC we select securitygpIds
+        
+        UserData: !Base64 |
+              #! /bin/bash
+              yum update -y
+              yum install -y httpd
+              FOLDER="https://raw.githubusercontent.com/abbabe/AWS-DevOps/main/ALB-AutoScaling-CFN/"
+              chmod -R 777 /var/www/html
+              cd /var/www/html
+              wget  $FOLDER/templates/index.html
+              wget  $FOLDER/static/style/style.css
+              wget  $FOLDER/static/images/res.jpeg
+              mkdir -p static/style
+              mkdir -p static/images
+              mv res.jpeg  /static/images
+              mv style.css /static/style
+              systemctl start httpd
+              systemctl enable httpd
+
+
+#ec2 Security Group 
+  mySG:         # optional name LogicalID
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Enables SSH and HTTP " # Required
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      VpcId: !Ref VPC # ref parameters
+
+# Target Group
+  myTG:    # optional name
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckIntervalSeconds: 10
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 5
+      Port: 80
+      Protocol: HTTP
+      UnhealthyThresholdCount: 3
+      VpcId: !Ref VPC # ref parameters
+      Name: MyALBTargetGP
+
+
+#
+Outputs:
+  # output of AppplicationLoadBalancer  web adress link
+  DNSofALB:   # optional name
+    Description: DNS of ALB
+    Value:
+      Fn::Join: 
+      - ''
+      - - http://
+        - Fn::GetAtt:
+          - myALB
+          - DNSName   #PublicDnsName
+
+
+
