@@ -129,8 +129,8 @@ Resources:
               wget  $FOLDER/static/images/res.jpeg
               mkdir -p static/style
               mkdir -p static/images
-              mv res.jpeg  /static/images
-              mv style.css /static/style
+              mv res.jpeg /var/www/html/static/images
+              mv style.css /var/www/html/static/style
               systemctl start httpd
               systemctl enable httpd
 
