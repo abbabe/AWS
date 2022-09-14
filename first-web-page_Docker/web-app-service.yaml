@@ -1,0 +1,19 @@
+#SERVICE  for WEB-APP
+apiVersion: v1
+kind: Service   # servis türünde olur
+metadata:
+    name: web-app-service  # service name
+    labels:  # Labels is important
+      name: web-app-service# Name of service 
+      app: myapp  # Erişimler için etiketleme yapılıyor. 
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80  # external service port
+      nodePort: 30005
+
+  #Selector 
+  selector:
+      name: web-app-pod
+      app: myapp  # get from  web-app-pod.yaml  file  labels section.

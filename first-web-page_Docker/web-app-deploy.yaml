@@ -1,0 +1,27 @@
+# Deployments YAML for WEB-APP-DEPLOY
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app-deploy
+  labels:
+    name: web-app-app-deploy
+    app: myweb-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: web-app-pod  #Pod ait isim
+      app: myweb-app
+      
+  template: 
+    metadata:
+      name: web-app-pod
+      labels:
+        name: web-app-pod  #Pod ait isim
+        app: myweb-app  # Erişimler için etiketleme yapılıyor. Uygulama etiketi aynı kalır
+    spec:
+     containers:
+      - name: web-app
+        image: abbabe/dagicloud:latest   # repository içindeki imajımız 
+        ports:
+         - containerPort: 80   #bu uygulamanın dinlendiği bağlantı 
