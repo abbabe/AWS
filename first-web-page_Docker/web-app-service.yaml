@@ -1,10 +1,10 @@
 #SERVICE  for WEB-APP
 apiVersion: v1
-kind: Service   # servis türünde olur
+kind: Service  
 metadata:
     name: web-app-service  # service name
     labels:  # Labels is important
-      name: web-app-service# Name of service 
+      name: web-app-service # Name of service 
       app: myapp  # Erişimler için etiketleme yapılıyor. 
 spec:
   type: LoadBalancer
