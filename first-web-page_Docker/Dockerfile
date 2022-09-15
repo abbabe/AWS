@@ -12,7 +12,7 @@ ADD  . /first-web-page
 RUN python3 -m pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-
+EXPOSE 80
 
 # define the command to start the container
 
