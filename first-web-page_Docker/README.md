@@ -5,3 +5,4 @@ Actually this is a Flask project that is made with Python. I decided to enhance 
 
 I hope that at the end of this project , I will be made kubernetes files.  
 
+# Note  Finally this project is running on the Google Kubernetes Engine via  deployment, service files. And I am also using my image that is on the my docker hub repo
