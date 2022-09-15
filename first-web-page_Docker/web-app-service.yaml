@@ -5,15 +5,15 @@ metadata:
     name: web-app-service  # service name
     labels:  # Labels is important
       name: web-app-service # Name of service 
-      app: myapp  # Erişimler için etiketleme yapılıyor. 
+      app: myweb-app  # Erişimler için etiketleme yapılıyor. 
 spec:
-  type: LoadBalancer
+  type: LoadBalancer # need for kubernetes
   ports:
     - port: 80
       targetPort: 80  # external service port
-      nodePort: 30005
+     # nodePort: 30005
 
   #Selector 
   selector:
       name: web-app-pod
-      app: myapp  # get from  web-app-pod.yaml  file  labels section.
+      app: myweb-app  # get from  web-app-pod.yaml  file  labels section.
