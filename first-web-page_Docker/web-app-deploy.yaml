@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: web-app-deploy
   labels:
-    name: web-app-app-deploy
+    name: web-app-deploy
     app: myweb-app
 spec:
   replicas: 2
@@ -21,7 +21,7 @@ spec:
         app: myweb-app  # Erişimler için etiketleme yapılıyor. Uygulama etiketi aynı kalır
     spec:
      containers:
-      - name: web-app
+      - name: myweb-app
         image: abbabe/dagicloud:latest   # repository içindeki imajımız 
         ports:
          - containerPort: 80   #bu uygulamanın dinlendiği bağlantı 
