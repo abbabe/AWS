@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/static/index.css" />
+  <title>DagiCloud</title>
+
+</head>
+
+<body>
+
+  <div> <img src="/static/logo.png"></div>
+
+  <h2>Project : Roman Numerals Converter Application</h2>
+  <p>This application converts decimal numbers to Roman numerals. Only numbers from 1 to 3999 are allowed.</p><br>
+
+  <form action="/" method="post">
+    <label for="number"><b>Please enter a number:</b></label>
+    <input placeholder="INPUT NUMBER" name="number" id="number" required />
+    <button type="submit">Submit</button>
+    {% if not_valid %}
+    <p class="warning"><b>Not Valid! Please enter a number between 1 and 3999, inclusively.</b></p>
+    {% endif %}
+  </form>
+
+  <p class="footnote"><i>This app is developed in Python by <b>{{ developer_name }}</b> and deployed with Flask on AWS EC2 Instance using AWS Clouldformation Service.</i></p>
+</body>
+
+</html>
