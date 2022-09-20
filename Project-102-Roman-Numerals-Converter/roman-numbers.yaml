@@ -7,7 +7,7 @@ Parameters:
     Description: Enter the name of your Key Pair for SSH connections
     Type: AWS::EC2::KeyPair::KeyName
 Resources:
-    WebServerSecurityGroup:
+  WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: Enable HTTP for Flask Web Server and SSH port to secure reach to my EC2
@@ -21,15 +21,15 @@ Resources:
           ToPort: 22
           CidrIp: 0.0.0.0/0
 
-    WebServerHost:
-      Type: AWS::EC2::Instance
-      Properties:
-        KeyName: !Ref KeyName
-        ImageId: ami-05fa00d4c63e32376
-        InstanceType: t2.micro
-        SecurityGroupIds:
-          - !Ref WebServerSecurityGroup
-        UserData: !Base64 |
+  WebServerHost:
+    Type: AWS::EC2::Instance
+    Properties:
+      KeyName: !Ref KeyName
+      ImageId: ami-05fa00d4c63e32376
+      InstanceType: t2.micro
+      SecurityGroupIds:
+         - !Ref WebServerSecurityGroup
+      UserData: !Base64 |
           #!/bin/bash 
           yum update -y
           yum install python3 -y
@@ -38,17 +38,20 @@ Resources:
           FOLDER="https://raw.githubusercontent.com/abbabe/AWS-DevOps/main/Project-102-Roman-Numerals-Converter/"
           wget $FOLDER/app.py
           mkdir templates
-          mkdir static
+          cd templates
           wget $FOLDER/templates/index.html
           wget $FOLDER/templates/result.html
+          cd ..
+          mkdir static
+          cd static
           wget $FOLDER/static/index.css
           wget $FOLDER/static/result.css
           wget $FOLDER/static/logo.png
           cd ..
           python3 app.py
-        Tags:
-          - Key: Name
-            Value: !Sub Web Server of ${AWS::StackName} Stack
+      Tags:
+        - Key: Name
+          Value: !Sub Web Server of ${AWS::StackName} Stack
           
 
 Outputs:
