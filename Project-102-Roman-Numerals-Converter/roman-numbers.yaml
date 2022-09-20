@@ -35,6 +35,26 @@ Resources:
           yum install python3 -y
           pip3 install flask
           cd /home/ec2-user
-          wget
+          FOLDER="https://raw.githubusercontent.com/abbabe/AWS-DevOps/main/Project-102-Roman-Numerals-Converter/"
+          wget $FOLDER/app.py
+          mkdir templates
+          mkdir static
+          wget $FOLDER/templates/index.html
+          wget $FOLDER/templates/result.html
+          wget $FOLDER/static/index.css
+          wget $FOLDER/static/result.css
+          wget $FOLDER/static/logo.png
+          cd ..
+          python3 app.py
+        Tags:
+          - Key: Name
+            Value: !Sub Web Server of ${AWS::StackName} Stack
+          
 
 Outputs:
+
+  WebsiteURL:
+    Value: !Sub
+      - http://${PublicAddress}
+      - PublicAddress: !GetAtt WebServerHost.PublicDnsName
+    Description: Roman Numerals Converter Application URL
