@@ -37,17 +37,11 @@ Resources:
           cd /home/ec2-user
           FOLDER="https://raw.githubusercontent.com/abbabe/AWS-DevOps/main/Project-102-Roman-Numerals-Converter/"
           wget $FOLDER/app.py
-          mkdir templates
-          cd templates
-          wget $FOLDER/templates/index.html
-          wget $FOLDER/templates/result.html
-          cd ..
-          mkdir static
-          cd static
-          wget $FOLDER/static/index.css
-          wget $FOLDER/static/result.css
-          wget $FOLDER/static/logo.png
-          cd ..
+          wget -P templates $FOLDER/templates/index.html
+          wget -P templates $FOLDER/templates/result.html
+          wget -P static $FOLDER/static/index.css
+          wget -P static $FOLDER/static/result.css
+          wget -P static  $FOLDER/static/logo.png
           python3 app.py
       Tags:
         - Key: Name
