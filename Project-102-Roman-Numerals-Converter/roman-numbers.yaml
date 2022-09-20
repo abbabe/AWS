@@ -35,5 +35,6 @@ Resources:
           yum install python3 -y
           pip3 install flask
           cd /home/ec2-user
+          wget
 
 Outputs:
