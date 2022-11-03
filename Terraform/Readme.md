@@ -17,6 +17,10 @@
 - terraform plan
 - terraform apply 
 
+- To terminate Ec2, you can use  
+    - terraform destroy 
+
+
 
 ##### Usable Links
 - https://registry.terraform.io/providers/hashicorp/aws/latest
