@@ -1,1 +1,49 @@
+version: "3.0"
 
+services:
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: Ad123
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD_FILE: /run/secrets/my_secret
+    secrets:
+      - my_secret
+    networks:
+      - db_net
+    volumes:
+     - db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8000:80"
+    volumes:
+     - wordpress_data: /var/www/html
+    networks:
+      - db_net
+    environment:
+      - WORDPRESS_DB_HOST= db
+      - WORDPRESS_DB_USER= wordpress
+      - WORDPRESS_DB_PASSWORD_FILE= /run/secrets/my_secret
+      - WORDPRESS_DB_NAME= wordpress
+    secrets:
+      - my_secret
+
+networks:
+  db_net:
+    driver: bridge
+
+secrets:
+   my_secret:
+     file: secrets.txt
+
+volumes:
+  db_data: {}
+  wordpress_data: {}
