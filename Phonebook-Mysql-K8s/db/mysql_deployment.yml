@@ -1,27 +1,27 @@
-# Deployment for result-server
+# Deployment for MYSQL DB
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-     name: result-server-deploy
+     name: mysql-deploy
      labels:
-       name: result-server-pod
-       app: search-result-server
+       name: mysql-pod
+       app: db
 spec:
    replicas: 3
    selector:
       matchLabels:
-        name: result-server-pod
-        app: search-result-server
+        name: mysql-pod
+        app: db
    template:
         metadata:
-          name: result-server-pod
+          name: mysql-pod
           labels:
-             name: result-server-pod
-             app: search-result-server
+             name: mysql-pod
+             app: db
         spec:
           containers:
-           - name:  resultserver
-             image: abbabe/resultserver:v1.0
+           - name:  mysql
+             image: mysql:5.7
              env:
              - name: MYSQL_PASSWORD
                valueFrom:
@@ -40,6 +40,13 @@ spec:
                   key: mysql-root-password
              envFrom:
              - configMapRef:
-                name: server-config  
+                name: db-config
+             volumeMounts:
+              - mountPath: "/var/lib/mysql"
+                name: db-storage
              ports:
-              - containerPort: 80
+              - containerPort: 3306
+          volumes:
+            - name: db-storage
+              persistentVolumeClaim:
+                claimName: db-pvc

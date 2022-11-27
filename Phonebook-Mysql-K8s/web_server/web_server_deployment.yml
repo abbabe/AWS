@@ -7,7 +7,7 @@ metadata:
        name: web-server-pod
        app: crud-web-server
 spec:
-   replicas: 1
+   replicas: 3
    selector:
       matchLabels:
         name: web-server-pod
