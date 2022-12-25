@@ -21,7 +21,7 @@ spec:
         spec:
           containers:
            - name:  resultserver
-             image: abbabe/resultserver:v1.0
+             image: abbabe/resultserver:v1.9
              env:
              - name: MYSQL_PASSWORD
                valueFrom:
