@@ -4,19 +4,71 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-9" />
     <title>Contact</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/contact.css')}}" />
+
   
 </head>
 
-<div class="container">
-    <h1 class="heading"> CONTACT </h1>
-</div>
-
-<div class="info">
-    <h1> <a href= dagistan18@gmail.com >dagistan18@gmail.com </a></h1> 
-</div>
 
 <body>
+    <section class="header">
+        <div class="container">
+           
+            <nav>
+                <a href="{{ url_for('home') }}"><img src="/static/images/logo.png"></a>
+                <div class="nav-links" id="navLinks">
+                    <i class="fa fa-times" onclick="hideMenu()"></i>
+    
+                    <ul>
+    
+    
+                        <li> <a href="{{ url_for('home') }}">HOME</a></li>
+                        
+            
+                    </ul>
+    
+                </div>
+                <i class="fa fa-bars" onclick="showMenu()"></i>
+    
+                <!-- we added fa fabar and fa times for mobile phone icons is added clickable fonc-->
+            </nav>
+           <!--  <div class="left">
+                <img src="{{ url_for('static',filename='images/res.jpg')}}" height="{{400}}" width="{{400}}"
+                    alt="IMAGE ERROR">
+            </div> -->
+    
+            <div class="contact">
+    
+                <h1>
+                     WE ARE ALWAYS READY TO SERVE YOU !<br />
+                   
+                </h1>
+               
+            </div>
+
+            
+
+
+        </div>
+    
+       
+    </section>
+
+
+    <div class="contact-form">
+        <form id="contact-form" method="post" action="contact-form-handler.php">
+        <input name="name" type="text" class="form-control" placeholder="Your Name" required><br>
+        <input name="email" type="email" class="form-control" placeholder="Your Email" required><br>
+        <textarea name="message" class="form-control" placeholder="Message" row="4" required></textarea><br>
+        <input type="submit" class="form-control submit" value="SEND MESSAGE">
+
+        </form>
+
+    </div>
+</body>
+
+
+
 
 
 </html>

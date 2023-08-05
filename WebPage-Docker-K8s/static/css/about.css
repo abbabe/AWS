@@ -63,47 +63,32 @@ nav img {
     width: 100%;
 }
 
-.text-box {
+.about {
 
     width: 90%;
     color: #ffff;
     position: absolute;
-    top: 50%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
 
 }
 
-.text-box h1 {
+.about h1 {
     font-size: 20px;
     color: #b1210e;
 }
 
-.text-box p {
+.about p {
     margin: 10px 0 40px;
     font-size: 15px;
-    color: #fffefd;
+    color: #000000;
 }
 
-/*visit button style and effect*/
-.visit-button {
-    display: inline-block;
-    text-decoration: none;
-    color: #fff;
-    border: 1px solid #fff;
-    padding: 12px 34px;
-    background: transparent;
-    position: relative;
-    cursor: pointer;
 
-}
 
-.visit-button:hover {
-    border:1px solid #d62f23;
-    background: #d62f23;
-    transition: 1s;
-}
+
 
 /* using via media page style */
 

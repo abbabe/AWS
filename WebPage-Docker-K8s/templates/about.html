@@ -2,10 +2,21 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-9" />
+    <!-- <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-9" /> -->
+    <meta name="viewport" content="with=device-width, initial-scale=1.0" http-equiv="Content-Type"
+        content="text/html; charset=utf-8" />
     <title>About</title>
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css')}}" />
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css')}}" /> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/about.css')}}" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/fontawesome.min.css">
+    <script src="https://kit.fontawesome.com/0c07a7ba79.js" crossorigin="anonymous"></script>
 
 
 </head>
@@ -13,29 +24,42 @@
 
 <body>
 
-
-    <section>
-        <div>
-            <h1 class="heading"> WHO AM I ? </h1>
-        </div>
-
-    </section>
-
-    <section>
+    <section class="header">
         <div class="container">
-       
-
-            <div class="left">
+           
+            <nav>
+                <a href="{{ url_for('home') }}"><img src="/static/images/logo.png"></a>
+                <div class="nav-links" id="navLinks">
+                    <i class="fa fa-times" onclick="hideMenu()"></i>
+    
+                    <ul>
+    
+    
+                        <li> <a href="{{ url_for('home') }}">HOME</a></li>
+                        
+            
+                    </ul>
+    
+                </div>
+                <i class="fa fa-bars" onclick="showMenu()"></i>
+    
+                <!-- we added fa fabar and fa times for mobile phone icons is added clickable fonc-->
+            </nav>
+           <!--  <div class="left">
                 <img src="{{ url_for('static',filename='images/res.jpg')}}" height="{{400}}" width="{{400}}"
                     alt="IMAGE ERROR">
-            </div>
+            </div> -->
     
-            <div class="right">
+            <div class="about">
     
-                <h1> Hi, I’m Ayhan.<br />
-                    I’m interested in Java, Android, Phyton, C# and AWS,DevOps .<br />
-                    I’m currently learning java and AWS . I’m looking to collaborate on java projects<br />
+                <h1>
+                   <br />
+                   
                 </h1>
+                <p>
+                    We set up infrastructures for flexible and faster application development with cloud architecture solutions.<br />
+                    We are a small, growing team of intelligent, genuine people that value different perspectives and approaches to solving complex problems. Come join us!<br />
+                </p>
     
             </div>
         </div>
@@ -43,11 +67,11 @@
 
     </section>
 
-    <section>
+   <!--<section>
         <img src="{{ url_for('static',filename='images/underconst.png')}}" height="{{200}}" width="{{400}}"
         alt="IMAGE ERROR">
 
-    </section>
+    </section>  --> 
    
 
 
