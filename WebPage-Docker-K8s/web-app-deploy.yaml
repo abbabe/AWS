@@ -7,7 +7,7 @@ metadata:
     name: web-app-deploy
     app: myweb-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       name: web-app-pod  #Pod name
@@ -25,3 +25,45 @@ spec:
         image: abbabe/dagicloud:latest   # image on docker hub
         ports:
          - containerPort: 80   # port of container
+---
+#SERVICE  for WEB-APP
+apiVersion: v1
+kind: Service  
+metadata:
+    name: web-app-service  # service name
+    labels:  # Labels is important
+      name: web-app-service # Name of service 
+      app: myweb-app  # to connect between pod and services
+spec:
+  type: ClusterIP # LoadBalancer # we wrote that for kubernetes 
+  ports:
+    - port: 80
+      targetPort: 80  # external service port
+     # nodePort: 30005
+
+  #Selector 
+  selector:
+      name: web-app-pod
+      app: myweb-app  # get from  web-app-pod.yaml  file  labels section.
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dagiweb
+  annotations:
+    kubernetes.io/ingress-class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: www.dagicloud.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web-app-service
+                port:
+                  number: 80
